@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    
+        <record id="view_stock_picking_form" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="delivery.view_picking_withcarrier_out_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header/button[last()]" position="after">
+                    <button name="send_message" string="Enviar Email" type="object" attrs="{'invisible': [('picking_type_code','=','outgoing')]}"/>
+                </xpath>
+
+                <field name="carrier_id" position="after">
+                    <field name="purchase_tracking_factory" readonly="1" attrs="{'invisible': [('picking_type_code','=','outgoing')]}"/>
+                    <field name="purchase_tracking_carrier" readonly="1" attrs="{'invisible': [('picking_type_code','=','outgoing')]}"/>
+                </field>
+            </field>
+        </record>
+        
+    </data>
+</odoo>
