@@ -3,11 +3,11 @@
     <data noupdate="1">
 
         <!--Email template -->
-        <record id="email_template_stock_picking_in" model="mail.template">
-            <field name="name">Tracking - Recibido en Bodega Chile</field>
+        <record id="email_template_stock_picking_out" model="mail.template">
+            <field name="name">Tracking - Entrega en Bodega Chile</field>
             <field name="email_from">${(object.create_uid.email and '%s &lt;%s&gt;' % (object.create_uid.name, object.create_uid.email) or '')|safe}</field>
-            <field name="subject">${object.company_id.name} - Recepción (Ref ${object.tracking_purchase_order.tracking_sale_order_ids.name or 'n/a' })</field>
-            <field name="partner_to">${object.tracking_purchase_order.tracking_sale_order_ids.partner_id.id}</field>
+            <field name="subject">${object.company_id.name} - Recepción (Ref ${object.tracking_sale_order.name or 'n/a' })</field>
+            <field name="partner_to">${object.tracking_sale_order.partner_id.id}</field>
             <field name="model_id" ref="purchase_tracking.model_stock_picking"/>
             <field name="auto_delete" eval="True"/>
             <field name="lang">${object.partner_id.lang}</field>
@@ -17,8 +17,8 @@ Hola,
 </p>
 
 <p>
-Tu pedido número ${object.tracking_purchase_order.tracking_sale_order_ids.name}  ya fue recibido en nuestra bodega en Chile.
-Y esta disponible para su retiro o coordinación de despacho.
+Tu pedido número ${object.tracking_sale_order.name} ya fue entregado en nuestra bodega en Chile.
+Su tracking de seguimiento Chileexpress es el número 4634634632463.
 </p>
 
 <p>
