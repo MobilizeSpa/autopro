@@ -102,12 +102,8 @@ class SaleOrder(models.Model):
             rec.tracking_purchase_order_count = len(rec.tracking_purchase_order_ids)
 
     def action_confirm(self):
-        super(SaleOrder, self).action_confirm()
-
-        po = self.env['purchase.order'].sudo().search([('state', '=', 'draft')], order='id desc')
-        if po:
-            po.tracking_sale_order_id = self.id
-            po.button_confirm()
+        super(SaleOrder, self.with_context(default_tracking_sale_order_id=self.id)).action_confirm()
+        self.env['purchase.order'].sudo().search([('state', '=', 'draft')], order='id desc').button_confirm()
 
         # Este fragmento se deshabilitó a pedido del cliente
         # permite generar la factura de la orden de venta automáticamente y validarla
