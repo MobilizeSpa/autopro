@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+    
+        <record id="view_sale_order_advance_payment_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="eq_sale_advance_payment.inherit_view_sale_view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='btn_advance_payment']" position="attributes">
+                    <attribute name="string">Registrar Pago</attribute>
+                </xpath>
+
+                <field name="adv_payment_ids" position="attributes">
+                    <attribute name="string">Pagos</attribute>
+                </field>
+
+                <xpath expr="//button[@name='action_view_adv_payments']" position="replace">
+                    <span/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_sale_order_form" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-cart-plus" attrs="{'invisible': [('tracking_purchase_order_count', '=', 0)]}">
+                        <field name="tracking_purchase_order_count" widget="statinfo" string="Compras"/>
+                    </button>
+                </xpath>
+
+                <xpath expr="//page[@name='order_lines']" position="inside">
+                    <field name="adv_payment_ids" readonly="1">
+                        <tree>
+                            <field name="date"/>
+                            <field name="name"/>
+                            <field name="ref"/>
+                            <field name="amount"/>
+                            <field name="state" invisible="1"/>
+                        </tree>
+                    </field>
+                    <!--
+                        Este widget muestra los pagos pendientes para asociar a la factura
+                        relacionada, se retiro a solicitud del cliente
+                        
+                        <field name="invoice_outstanding_credits_debits_widget"
+                            class="oe_invoice_outstanding_credits_debits"
+                            colspan="2" nolabel="1" widget="payment"
+                            attrs="{'invisible': [('state', 'in', ['draft','sent','cancel'])]}"/>
+                        
+                    -->
+                </xpath>
+
+                <!--<field name="amount_total" position="after">
+                    <field name="invoice_payments_widget" colspan="4" nolabel="1" widget="payment"/>
+                </field>-->
+            </field>
+        </record>
+        
+    </data>
+</odoo>

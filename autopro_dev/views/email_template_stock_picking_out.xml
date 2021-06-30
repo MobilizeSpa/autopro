@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!--Email template -->
+        <record id="email_template_stock_picking_out" model="mail.template">
+            <field name="name">Tracking - Entrega en Bodega Chile</field>
+            <field name="email_from">${(object.create_uid.email and '%s &lt;%s&gt;' % (object.create_uid.name, object.create_uid.email) or '')|safe}</field>
+            <field name="subject">${object.company_id.name} - Recepción (Ref ${object.tracking_sale_order.name or 'n/a' })</field>
+            <field name="partner_to">${object.tracking_sale_order.partner_id.id}</field>
+            <field name="model_id" ref="autopro_dev.model_stock_picking"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html"><![CDATA[
+<p>
+Hola,
+</p>
+
+<p>
+Tu pedido número ${object.tracking_sale_order.name} ya fue entregado en nuestra bodega en Chile.
+Su tracking de seguimiento Chileexpress es el número 4634634632463.
+</p>
+
+<p>
+Saludos<br/>
+Equipo AutoproStore
+</p>
+]]></field>
+        </record>
+    </data>
+</odoo>
