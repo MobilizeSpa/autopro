@@ -87,5 +87,5 @@ class StockPicking(models.Model):
                 for payment in payments:
                     total_paid += payment.amount
                 if rec.tracking_sale_order.amount_total > total_paid:
-                    raise exceptions.ValidationError(_('El pedido de venta relacionado aún no ha sido cancelado, por lo que no puede completar esta entrega'))
+                    raise exceptions.ValidationError(_('El pedido de venta relacionado aún no ha sido pagado en totalidad, por lo que no puede completar esta entrega'))
         return res
